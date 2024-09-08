@@ -40,16 +40,8 @@ jobs:
         run: choco install ant -y
 
       # 运行 Ant 编译模板
-      - name: Compile templates
-        run: ant compile-templates
-
-      # 运行 Ant 编译
-      - name: Compile java
-        run: ant compile
-
-      # 运行 Ant 本地编译
-      - name: Compile natives
-        run: ant compile-native
+      - name: Compile
+        run: ant -Djavadoc.skip=true
 
       # 运行 Ant 发布（跳过 Javadoc 生成）
       - name: Release
