@@ -14,44 +14,44 @@ This script is included in /config/build-definitions.xml.
 
     <!-- // ========== BINDING FLAGS ======== // -->
 
-    <property name="binding.assimp" value="true"/>
+    <property name="binding.assimp" value="false"/>
     <condition property="binding.bgfx" value="false" else="true">
         <and>
             <isset property="platform.windows"/>
             <isset property="build.arch.arm"/>
         </and>
     </condition>
-    <property name="binding.cuda" value="true"/>
+    <property name="binding.cuda" value="false"/>
     <property name="binding.egl" value="true"/>
-    <property name="binding.fmod" value="true"/>
+    <property name="binding.fmod" value="false"/>
     <property name="binding.freetype" value="true"/>
     <property name="binding.glfw" value="true"/>
-    <property name="binding.harfbuzz" value="true"/>
-    <property name="binding.hwloc" value="true"/>
-    <property name="binding.jawt" value="true"/>
-    <property name="binding.jemalloc" value="true"/>
-    <property name="binding.ktx" value="true"/>
-    <property name="binding.libdivide" value="true"/>
+    <property name="binding.harfbuzz" value="false"/>
+    <property name="binding.hwloc" value="false"/>
+    <property name="binding.jawt" value="false"/>
+    <property name="binding.jemalloc" value="false"/>
+    <property name="binding.ktx" value="false"/>
+    <property name="binding.libdivide" value="false"/>
     <property name="binding.llvm" value="true"/>
-    <property name="binding.lmdb" value="true"/>
-    <property name="binding.lz4" value="true"/>
-    <condition property="binding.meow" value="true" else="false">
+    <property name="binding.lmdb" value="false"/>
+    <property name="binding.lz4" value="false"/>
+    <condition property="binding.meow" value="false" else="false">
         <or>
             <isset property="build.arch.x64|x86"/>
             <isset property="build.arch.arm64"/>
         </or>
     </condition>
-    <property name="binding.meshoptimizer" value="true"/>
-    <property name="binding.msdfgen" value="true"/>
+    <property name="binding.meshoptimizer" value="false"/>
+    <property name="binding.msdfgen" value="false"/>
     <property name="binding.nanovg" value="true"/>
-    <property name="binding.nfd" value="true"/>
-    <property name="binding.nuklear" value="true"/>
-    <property name="binding.odbc" value="true"/>
+    <property name="binding.nfd" value="false"/>
+    <property name="binding.nuklear" value="false"/>
+    <property name="binding.odbc" value="false"/>
     <property name="binding.openal" value="true"/>
     <property name="binding.opencl" value="true"/>
     <property name="binding.opengl" value="true"/>
     <property name="binding.opengles" value="true"/>
-    <condition property="binding.openvr" value="true" else="false">
+    <condition property="binding.openvr" value="false" else="false">
         <or>
             <isset property="build.arch.x64|x86"/>
             <and>
@@ -60,9 +60,9 @@ This script is included in /config/build-definitions.xml.
             </and>
         </or>
     </condition>
-    <property name="binding.openxr" value="true"/>
-    <property name="binding.opus" value="true"/>
-    <property name="binding.par" value="true"/>
+    <property name="binding.openxr" value="false"/>
+    <property name="binding.opus" value="false"/>
+    <property name="binding.par" value="false"/>
     <condition property="binding.remotery" value="false" else="true">
         <and>
             <isset property="platform.windows"/>
@@ -74,14 +74,14 @@ This script is included in /config/build-definitions.xml.
     <property name="binding.spvc" value="true"/>
     <condition property="binding.sse" value="true" else="false"><isset property="build.arch.x64|x86"/></condition>
     <property name="binding.stb" value="true"/>
-    <property name="binding.tinyexr" value="true"/>
-    <property name="binding.tinyfd" value="true"/>
-    <condition property="binding.tootle" value="true" else="false"><isset property="build.arch.x64|x86"/></condition>
+    <property name="binding.tinyexr" value="false"/>
+    <property name="binding.tinyfd" value="false"/>
+    <condition property="binding.tootle" value="false" else="false"><isset property="build.arch.x64|x86"/></condition>
     <property name="binding.vulkan" value="true"/>
-    <condition property="binding.vma" value="true" else="false"><istrue value="${binding.vulkan}"/></condition>
-    <property name="binding.xxhash" value="true"/>
-    <property name="binding.yoga" value="true"/>
-    <property name="binding.zstd" value="true"/>
+    <condition property="binding.vma" value="false" else="false"><istrue value="${binding.vulkan}"/></condition>
+    <property name="binding.xxhash" value="false"/>
+    <property name="binding.yoga" value="false"/>
+    <property name="binding.zstd" value="false"/>
 
     <!-- TODO: automate -->
     <property name="java-only.binding.cuda" value="true"/>
