@@ -10,7 +10,7 @@ env:
   JAVA_HOME: jdk17
   JAVA8_HOME: jdk8
   ANT_OPTS: -Xmx8G
-  LWJGL_BUILD_OFFLINE: true
+  LWJGL_BUILD_OFFLINE: "true"
 
 jobs:
   build:
