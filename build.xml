@@ -492,7 +492,7 @@
             <include name="**"/>
         </lwjgl.javac16>
 
-        <parallel threadsPerProcessor="1">
+        <parallel threadsPerProcessor="2">
             <compileBinding binding="assimp"/>
             <compileBinding binding="bgfx"/>
             <compileBinding binding="cuda"/>

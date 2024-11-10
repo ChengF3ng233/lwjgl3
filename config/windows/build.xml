@@ -230,7 +230,7 @@ EXPORTS
         </build>
 
         <!-- Meow -->
-        <build_simple module="meow" useClang="false"/>
+        <build_simple module="meow" useClang="false" if:true="${binding.meow}"/>
 
         <!-- meshoptimizer -->
         <sequential if:true="${binding.meshoptimizer}">

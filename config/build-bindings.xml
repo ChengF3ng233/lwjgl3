@@ -49,7 +49,7 @@ This script is included in /config/build-definitions.xml.
     <property name="binding.odbc" value="false"/>
     <property name="binding.openal" value="false"/>
     <property name="binding.opencl" value="false"/>
-    <property name="binding.opengl" value="false"/>
+    <property name="binding.opengl" value="true"/>
     <property name="binding.opengles" value="false"/>
     <condition property="binding.openvr" value="true" else="false">
         <or>
@@ -73,7 +73,7 @@ This script is included in /config/build-definitions.xml.
     <property name="binding.shaderc" value="false"/>
     <property name="binding.spvc" value="false"/>
     <condition property="binding.sse" value="true" else="false"><isset property="build.arch.x64|x86"/></condition>
-    <property name="binding.stb" value="false"/>
+    <property name="binding.stb" value="true"/>
     <property name="binding.tinyexr" value="false"/>
     <property name="binding.tinyfd" value="false"/>
     <condition property="binding.tootle" value="true" else="false"><isset property="build.arch.x64|x86"/></condition>
