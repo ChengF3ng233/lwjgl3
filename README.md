@@ -7,6 +7,9 @@
 
 ## LWJGL - Lightweight Java Game Library 3
 
+# Building
+Check out my repository `Aluminium` and find the folder `libs`, which contains the fixed NanoVG build.
+
 LWJGL (https://www.lwjgl.org) is a Java library that enables cross-platform
 access to popular native APIs useful in the development of graphics
 (OpenGL/Vulkan), audio (OpenAL) and parallel computing (OpenCL) applications.
