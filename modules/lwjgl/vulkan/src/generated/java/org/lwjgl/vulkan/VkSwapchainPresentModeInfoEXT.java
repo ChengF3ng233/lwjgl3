@@ -5,7 +5,7 @@
  */
 package org.lwjgl.vulkan;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import java.nio.*;
 
@@ -185,8 +185,7 @@ public class VkSwapchainPresentModeInfoEXT extends Struct<VkSwapchainPresentMode
     }
 
     /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkSwapchainPresentModeInfoEXT createSafe(long address) {
+    public static @Nullable VkSwapchainPresentModeInfoEXT createSafe(long address) {
         return address == NULL ? null : new VkSwapchainPresentModeInfoEXT(address, null);
     }
 
@@ -229,8 +228,7 @@ public class VkSwapchainPresentModeInfoEXT extends Struct<VkSwapchainPresentMode
     }
 
     /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkSwapchainPresentModeInfoEXT.Buffer createSafe(long address, int capacity) {
+    public static VkSwapchainPresentModeInfoEXT.@Nullable Buffer createSafe(long address, int capacity) {
         return address == NULL ? null : new Buffer(address, capacity);
     }
 
@@ -275,20 +273,20 @@ public class VkSwapchainPresentModeInfoEXT extends Struct<VkSwapchainPresentMode
     // -----------------------------------
 
     /** Unsafe version of {@link #sType}. */
-    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + VkSwapchainPresentModeInfoEXT.STYPE); }
+    public static int nsType(long struct) { return memGetInt(struct + VkSwapchainPresentModeInfoEXT.STYPE); }
     /** Unsafe version of {@link #pNext}. */
     public static long npNext(long struct) { return memGetAddress(struct + VkSwapchainPresentModeInfoEXT.PNEXT); }
     /** Unsafe version of {@link #swapchainCount}. */
-    public static int nswapchainCount(long struct) { return UNSAFE.getInt(null, struct + VkSwapchainPresentModeInfoEXT.SWAPCHAINCOUNT); }
+    public static int nswapchainCount(long struct) { return memGetInt(struct + VkSwapchainPresentModeInfoEXT.SWAPCHAINCOUNT); }
     /** Unsafe version of {@link #pPresentModes() pPresentModes}. */
     public static IntBuffer npPresentModes(long struct) { return memIntBuffer(memGetAddress(struct + VkSwapchainPresentModeInfoEXT.PPRESENTMODES), nswapchainCount(struct)); }
 
     /** Unsafe version of {@link #sType(int) sType}. */
-    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + VkSwapchainPresentModeInfoEXT.STYPE, value); }
+    public static void nsType(long struct, int value) { memPutInt(struct + VkSwapchainPresentModeInfoEXT.STYPE, value); }
     /** Unsafe version of {@link #pNext(long) pNext}. */
     public static void npNext(long struct, long value) { memPutAddress(struct + VkSwapchainPresentModeInfoEXT.PNEXT, value); }
     /** Sets the specified value to the {@code swapchainCount} field of the specified {@code struct}. */
-    public static void nswapchainCount(long struct, int value) { UNSAFE.putInt(null, struct + VkSwapchainPresentModeInfoEXT.SWAPCHAINCOUNT, value); }
+    public static void nswapchainCount(long struct, int value) { memPutInt(struct + VkSwapchainPresentModeInfoEXT.SWAPCHAINCOUNT, value); }
     /** Unsafe version of {@link #pPresentModes(IntBuffer) pPresentModes}. */
     public static void npPresentModes(long struct, IntBuffer value) { memPutAddress(struct + VkSwapchainPresentModeInfoEXT.PPRESENTMODES, memAddress(value)); nswapchainCount(struct, value.remaining()); }
 
@@ -332,6 +330,11 @@ public class VkSwapchainPresentModeInfoEXT extends Struct<VkSwapchainPresentMode
         @Override
         protected Buffer self() {
             return this;
+        }
+
+        @Override
+        protected Buffer create(long address, @Nullable ByteBuffer container, int mark, int position, int limit, int capacity) {
+            return new Buffer(address, container, mark, position, limit, capacity);
         }
 
         @Override

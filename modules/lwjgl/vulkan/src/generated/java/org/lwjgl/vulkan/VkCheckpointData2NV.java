@@ -5,7 +5,7 @@
  */
 package org.lwjgl.vulkan;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import java.nio.*;
 
@@ -162,8 +162,7 @@ public class VkCheckpointData2NV extends Struct<VkCheckpointData2NV> implements 
     }
 
     /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkCheckpointData2NV createSafe(long address) {
+    public static @Nullable VkCheckpointData2NV createSafe(long address) {
         return address == NULL ? null : new VkCheckpointData2NV(address, null);
     }
 
@@ -206,8 +205,7 @@ public class VkCheckpointData2NV extends Struct<VkCheckpointData2NV> implements 
     }
 
     /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkCheckpointData2NV.Buffer createSafe(long address, int capacity) {
+    public static VkCheckpointData2NV.@Nullable Buffer createSafe(long address, int capacity) {
         return address == NULL ? null : new Buffer(address, capacity);
     }
 
@@ -252,16 +250,16 @@ public class VkCheckpointData2NV extends Struct<VkCheckpointData2NV> implements 
     // -----------------------------------
 
     /** Unsafe version of {@link #sType}. */
-    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + VkCheckpointData2NV.STYPE); }
+    public static int nsType(long struct) { return memGetInt(struct + VkCheckpointData2NV.STYPE); }
     /** Unsafe version of {@link #pNext}. */
     public static long npNext(long struct) { return memGetAddress(struct + VkCheckpointData2NV.PNEXT); }
     /** Unsafe version of {@link #stage}. */
-    public static long nstage(long struct) { return UNSAFE.getLong(null, struct + VkCheckpointData2NV.STAGE); }
+    public static long nstage(long struct) { return memGetLong(struct + VkCheckpointData2NV.STAGE); }
     /** Unsafe version of {@link #pCheckpointMarker}. */
     public static long npCheckpointMarker(long struct) { return memGetAddress(struct + VkCheckpointData2NV.PCHECKPOINTMARKER); }
 
     /** Unsafe version of {@link #sType(int) sType}. */
-    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + VkCheckpointData2NV.STYPE, value); }
+    public static void nsType(long struct, int value) { memPutInt(struct + VkCheckpointData2NV.STYPE, value); }
     /** Unsafe version of {@link #pNext(long) pNext}. */
     public static void npNext(long struct, long value) { memPutAddress(struct + VkCheckpointData2NV.PNEXT, value); }
 
@@ -296,6 +294,11 @@ public class VkCheckpointData2NV extends Struct<VkCheckpointData2NV> implements 
         @Override
         protected Buffer self() {
             return this;
+        }
+
+        @Override
+        protected Buffer create(long address, @Nullable ByteBuffer container, int mark, int position, int limit, int capacity) {
+            return new Buffer(address, container, mark, position, limit, capacity);
         }
 
         @Override

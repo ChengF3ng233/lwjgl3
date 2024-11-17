@@ -5,7 +5,7 @@
  */
 package org.lwjgl.vulkan;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import java.nio.*;
 
@@ -167,8 +167,7 @@ public class VkMultiviewPerViewAttributesInfoNVX extends Struct<VkMultiviewPerVi
     }
 
     /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkMultiviewPerViewAttributesInfoNVX createSafe(long address) {
+    public static @Nullable VkMultiviewPerViewAttributesInfoNVX createSafe(long address) {
         return address == NULL ? null : new VkMultiviewPerViewAttributesInfoNVX(address, null);
     }
 
@@ -211,8 +210,7 @@ public class VkMultiviewPerViewAttributesInfoNVX extends Struct<VkMultiviewPerVi
     }
 
     /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkMultiviewPerViewAttributesInfoNVX.Buffer createSafe(long address, int capacity) {
+    public static VkMultiviewPerViewAttributesInfoNVX.@Nullable Buffer createSafe(long address, int capacity) {
         return address == NULL ? null : new Buffer(address, capacity);
     }
 
@@ -257,22 +255,22 @@ public class VkMultiviewPerViewAttributesInfoNVX extends Struct<VkMultiviewPerVi
     // -----------------------------------
 
     /** Unsafe version of {@link #sType}. */
-    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + VkMultiviewPerViewAttributesInfoNVX.STYPE); }
+    public static int nsType(long struct) { return memGetInt(struct + VkMultiviewPerViewAttributesInfoNVX.STYPE); }
     /** Unsafe version of {@link #pNext}. */
     public static long npNext(long struct) { return memGetAddress(struct + VkMultiviewPerViewAttributesInfoNVX.PNEXT); }
     /** Unsafe version of {@link #perViewAttributes}. */
-    public static int nperViewAttributes(long struct) { return UNSAFE.getInt(null, struct + VkMultiviewPerViewAttributesInfoNVX.PERVIEWATTRIBUTES); }
+    public static int nperViewAttributes(long struct) { return memGetInt(struct + VkMultiviewPerViewAttributesInfoNVX.PERVIEWATTRIBUTES); }
     /** Unsafe version of {@link #perViewAttributesPositionXOnly}. */
-    public static int nperViewAttributesPositionXOnly(long struct) { return UNSAFE.getInt(null, struct + VkMultiviewPerViewAttributesInfoNVX.PERVIEWATTRIBUTESPOSITIONXONLY); }
+    public static int nperViewAttributesPositionXOnly(long struct) { return memGetInt(struct + VkMultiviewPerViewAttributesInfoNVX.PERVIEWATTRIBUTESPOSITIONXONLY); }
 
     /** Unsafe version of {@link #sType(int) sType}. */
-    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + VkMultiviewPerViewAttributesInfoNVX.STYPE, value); }
+    public static void nsType(long struct, int value) { memPutInt(struct + VkMultiviewPerViewAttributesInfoNVX.STYPE, value); }
     /** Unsafe version of {@link #pNext(long) pNext}. */
     public static void npNext(long struct, long value) { memPutAddress(struct + VkMultiviewPerViewAttributesInfoNVX.PNEXT, value); }
     /** Unsafe version of {@link #perViewAttributes(boolean) perViewAttributes}. */
-    public static void nperViewAttributes(long struct, int value) { UNSAFE.putInt(null, struct + VkMultiviewPerViewAttributesInfoNVX.PERVIEWATTRIBUTES, value); }
+    public static void nperViewAttributes(long struct, int value) { memPutInt(struct + VkMultiviewPerViewAttributesInfoNVX.PERVIEWATTRIBUTES, value); }
     /** Unsafe version of {@link #perViewAttributesPositionXOnly(boolean) perViewAttributesPositionXOnly}. */
-    public static void nperViewAttributesPositionXOnly(long struct, int value) { UNSAFE.putInt(null, struct + VkMultiviewPerViewAttributesInfoNVX.PERVIEWATTRIBUTESPOSITIONXONLY, value); }
+    public static void nperViewAttributesPositionXOnly(long struct, int value) { memPutInt(struct + VkMultiviewPerViewAttributesInfoNVX.PERVIEWATTRIBUTESPOSITIONXONLY, value); }
 
     // -----------------------------------
 
@@ -305,6 +303,11 @@ public class VkMultiviewPerViewAttributesInfoNVX extends Struct<VkMultiviewPerVi
         @Override
         protected Buffer self() {
             return this;
+        }
+
+        @Override
+        protected Buffer create(long address, @Nullable ByteBuffer container, int mark, int position, int limit, int capacity) {
+            return new Buffer(address, container, mark, position, limit, capacity);
         }
 
         @Override

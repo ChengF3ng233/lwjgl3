@@ -75,7 +75,6 @@ typedef struct FONSquad FONSquad;
 
 struct FONStextIter {
 	float x, y, nextx, nexty, scale, spacing;
-	int kern_adjust;
 	unsigned int codepoint;
 	short isize, iblur;
 	struct FONSfont* font;
@@ -160,12 +159,10 @@ typedef struct FONSttFontImpl FONSttFontImpl;
 
 #else
 
-#define STB_TRUETYPE_IMPLEMENTATION
-
-static void* fons__tmpalloc(size_t size, void* up);
-static void fons__tmpfree(void* ptr, void* up);
-#define STBTT_malloc(x,u)    fons__tmpalloc(x,u)
-#define STBTT_free(x,u)      fons__tmpfree(x,u)
+//static void* fons__tmpalloc(size_t size, void* up);
+//static void fons__tmpfree(void* ptr, void* up);
+//#define STBTT_malloc(x,u)    fons__tmpalloc(x,u)
+//#define STBTT_free(x,u)      fons__tmpfree(x,u)
 #include "stb_truetype.h"
 
 struct FONSttFontImpl {
@@ -463,7 +460,7 @@ int fons__tt_getGlyphKernAdvance(FONSttFontImpl *font, int glyph1, int glyph2)
 
 #ifdef STB_TRUETYPE_IMPLEMENTATION
 
-static void* fons__tmpalloc(size_t size, void* up)
+/*static void* fons__tmpalloc(size_t size, void* up)
 {
 	unsigned char* ptr;
 	FONScontext* stash = (FONScontext*)up;
@@ -486,7 +483,7 @@ static void fons__tmpfree(void* ptr, void* up)
 	(void)ptr;
 	(void)up;
 	// empty
-}
+}*/
 
 #endif // STB_TRUETYPE_IMPLEMENTATION
 
@@ -534,8 +531,8 @@ static unsigned int fons__decutf8(unsigned int* state, unsigned int* codep, unsi
 static void fons__deleteAtlas(FONSatlas* atlas)
 {
 	if (atlas == NULL) return;
-	if (atlas->nodes != NULL) free(atlas->nodes);
-	free(atlas);
+	if (atlas->nodes != NULL) NVG_FREE(atlas->nodes);
+	NVG_FREE(atlas);
 }
 
 static FONSatlas* fons__allocAtlas(int w, int h, int nnodes)
@@ -543,7 +540,7 @@ static FONSatlas* fons__allocAtlas(int w, int h, int nnodes)
 	FONSatlas* atlas = NULL;
 
 	// Allocate memory for the font stash.
-	atlas = (FONSatlas*)malloc(sizeof(FONSatlas));
+	atlas = (FONSatlas*)NVG_MALLOC(sizeof(FONSatlas));
 	if (atlas == NULL) goto error;
 	memset(atlas, 0, sizeof(FONSatlas));
 
@@ -551,7 +548,7 @@ static FONSatlas* fons__allocAtlas(int w, int h, int nnodes)
 	atlas->height = h;
 
 	// Allocate space for skyline nodes
-	atlas->nodes = (FONSatlasNode*)malloc(sizeof(FONSatlasNode) * nnodes);
+	atlas->nodes = (FONSatlasNode*)NVG_MALLOC(sizeof(FONSatlasNode) * nnodes);
 	if (atlas->nodes == NULL) goto error;
 	memset(atlas->nodes, 0, sizeof(FONSatlasNode) * nnodes);
 	atlas->nnodes = 0;
@@ -576,7 +573,7 @@ static int fons__atlasInsertNode(FONSatlas* atlas, int idx, int x, int y, int w)
 	// Insert node
 	if (atlas->nnodes+1 > atlas->cnodes) {
 		atlas->cnodes = atlas->cnodes == 0 ? 8 : atlas->cnodes * 2;
-		atlas->nodes = (FONSatlasNode*)realloc(atlas->nodes, sizeof(FONSatlasNode) * atlas->cnodes);
+		atlas->nodes = (FONSatlasNode*)NVG_REALLOC(atlas->nodes, sizeof(FONSatlasNode) * atlas->cnodes);
 		if (atlas->nodes == NULL)
 			return 0;
 	}
@@ -737,14 +734,14 @@ FONScontext* fonsCreateInternal(FONSparams* params)
 	FONScontext* stash = NULL;
 
 	// Allocate memory for the font stash.
-	stash = (FONScontext*)malloc(sizeof(FONScontext));
+	stash = (FONScontext*)NVG_MALLOC(sizeof(FONScontext));
 	if (stash == NULL) goto error;
 	memset(stash, 0, sizeof(FONScontext));
 
 	stash->params = *params;
 
 	// Allocate scratch buffer.
-	stash->scratch = (unsigned char*)malloc(FONS_SCRATCH_BUF_SIZE);
+	stash->scratch = (unsigned char*)NVG_MALLOC(FONS_SCRATCH_BUF_SIZE);
 	if (stash->scratch == NULL) goto error;
 
 	// Initialize implementation library
@@ -759,7 +756,7 @@ FONScontext* fonsCreateInternal(FONSparams* params)
 	if (stash->atlas == NULL) goto error;
 
 	// Allocate space for fonts.
-	stash->fonts = (FONSfont**)malloc(sizeof(FONSfont*) * FONS_INIT_FONTS);
+	stash->fonts = (FONSfont**)NVG_MALLOC(sizeof(FONSfont*) * FONS_INIT_FONTS);
 	if (stash->fonts == NULL) goto error;
 	memset(stash->fonts, 0, sizeof(FONSfont*) * FONS_INIT_FONTS);
 	stash->cfonts = FONS_INIT_FONTS;
@@ -768,7 +765,7 @@ FONScontext* fonsCreateInternal(FONSparams* params)
 	// Create texture for the cache.
 	stash->itw = 1.0f/stash->params.width;
 	stash->ith = 1.0f/stash->params.height;
-	stash->texData = (unsigned char*)malloc(stash->params.width * stash->params.height);
+	stash->texData = (unsigned char*)NVG_MALLOC(stash->params.width * stash->params.height);
 	if (stash->texData == NULL) goto error;
 	memset(stash->texData, 0, stash->params.width * stash->params.height);
 
@@ -882,9 +879,9 @@ void fonsClearState(FONScontext* stash)
 static void fons__freeFont(FONSfont* font)
 {
 	if (font == NULL) return;
-	if (font->glyphs) free(font->glyphs);
-	if (font->freeData && font->data) free(font->data);
-	free(font);
+	if (font->glyphs) NVG_FREE(font->glyphs);
+	if (font->freeData && font->data) NVG_FREE(font->data);
+	NVG_FREE(font);
 }
 
 static int fons__allocFont(FONScontext* stash)
@@ -892,15 +889,15 @@ static int fons__allocFont(FONScontext* stash)
 	FONSfont* font = NULL;
 	if (stash->nfonts+1 > stash->cfonts) {
 		stash->cfonts = stash->cfonts == 0 ? 8 : stash->cfonts * 2;
-		stash->fonts = (FONSfont**)realloc(stash->fonts, sizeof(FONSfont*) * stash->cfonts);
+		stash->fonts = (FONSfont**)NVG_REALLOC(stash->fonts, sizeof(FONSfont*) * stash->cfonts);
 		if (stash->fonts == NULL)
 			return -1;
 	}
-	font = (FONSfont*)malloc(sizeof(FONSfont));
+	font = (FONSfont*)NVG_MALLOC(sizeof(FONSfont));
 	if (font == NULL) goto error;
 	memset(font, 0, sizeof(FONSfont));
 
-	font->glyphs = (FONSglyph*)malloc(sizeof(FONSglyph) * FONS_INIT_GLYPHS);
+	font->glyphs = (FONSglyph*)NVG_MALLOC(sizeof(FONSglyph) * FONS_INIT_GLYPHS);
 	if (font->glyphs == NULL) goto error;
 	font->cglyphs = FONS_INIT_GLYPHS;
 	font->nglyphs = 0;
@@ -927,7 +924,7 @@ int fonsAddFont(FONScontext* stash, const char* name, const char* path, int font
 	fseek(fp,0,SEEK_END);
 	dataSize = (int)ftell(fp);
 	fseek(fp,0,SEEK_SET);
-	data = (unsigned char*)malloc(dataSize);
+	data = (unsigned char*)NVG_MALLOC(dataSize);
 	if (data == NULL) goto error;
 	readed = fread(data, 1, dataSize, fp);
 	fclose(fp);
@@ -937,7 +934,7 @@ int fonsAddFont(FONScontext* stash, const char* name, const char* path, int font
 	return fonsAddFontMem(stash, name, data, dataSize, 1, fontIndex);
 
 error:
-	if (data) free(data);
+	if (data) NVG_FREE(data);
 	if (fp) fclose(fp);
 	return FONS_INVALID;
 }
@@ -1001,7 +998,7 @@ static FONSglyph* fons__allocGlyph(FONSfont* font)
 {
 	if (font->nglyphs+1 > font->cglyphs) {
 		font->cglyphs = font->cglyphs == 0 ? 8 : font->cglyphs * 2;
-		font->glyphs = (FONSglyph*)realloc(font->glyphs, sizeof(FONSglyph) * font->cglyphs);
+		font->glyphs = (FONSglyph*)NVG_REALLOC(font->glyphs, sizeof(FONSglyph) * font->cglyphs);
 		if (font->glyphs == NULL) return NULL;
 	}
 	font->nglyphs++;
@@ -1211,20 +1208,16 @@ static FONSglyph* fons__getGlyph(FONScontext* stash, FONSfont* font, unsigned in
 	return glyph;
 }
 
-static int fons__getQuad(FONScontext* stash, FONSfont* font,
+static void fons__getQuad(FONScontext* stash, FONSfont* font,
 						   int prevGlyphIndex, FONSglyph* glyph,
 						   float scale, float spacing, float* x, float* y, FONSquad* q)
 {
-	int kern_adjust;
 	float rx,ry,xoff,yoff,x0,y0,x1,y1;
 
 	if (prevGlyphIndex != -1) {
 		float adv = fons__tt_getGlyphKernAdvance(&font->font, prevGlyphIndex, glyph->index) * scale;
-		kern_adjust = (int)(adv + spacing + 0.5f);
-		*x += kern_adjust;
+		*x += (int)(adv + spacing + 0.5f);
 	}
-	else
-		kern_adjust = 0;
 
 	// Each glyph has 2px border to allow good interpolation,
 	// one pixel to prevent leaking, and one to allow good interpolation for rendering.
@@ -1265,7 +1258,6 @@ static int fons__getQuad(FONScontext* stash, FONSfont* font,
 	}
 
 	*x += (int)(glyph->xadv / 10.0f + 0.5f);
-	return kern_adjust;
 }
 
 static void fons__flush(FONScontext* stash)
@@ -1422,7 +1414,6 @@ int fonsTextIterInit(FONScontext* stash, FONStextIter* iter,
 	if (end == NULL)
 		end = str + strlen(str);
 
-	iter->kern_adjust = 0;
 	iter->x = iter->nextx = x;
 	iter->y = iter->nexty = y;
 	iter->spacing = state->spacing;
@@ -1455,9 +1446,7 @@ int fonsTextIterNext(FONScontext* stash, FONStextIter* iter, FONSquad* quad)
 		glyph = fons__getGlyph(stash, iter->font, iter->codepoint, iter->isize, iter->iblur, iter->bitmapOption);
 		// If the iterator was initialized with FONS_GLYPH_BITMAP_OPTIONAL, then the UV coordinates of the quad will be invalid.
 		if (glyph != NULL)
-			iter->kern_adjust = fons__getQuad(stash, iter->font, iter->prevGlyphIndex, glyph, iter->scale, iter->spacing, &iter->nextx, &iter->nexty, quad);
-		else
-			iter->kern_adjust = 0;
+			fons__getQuad(stash, iter->font, iter->prevGlyphIndex, glyph, iter->scale, iter->spacing, &iter->nextx, &iter->nexty, quad);
 		iter->prevGlyphIndex = glyph != NULL ? glyph->index : -1;
 		break;
 	}
@@ -1673,11 +1662,11 @@ void fonsDeleteInternal(FONScontext* stash)
 		fons__freeFont(stash->fonts[i]);
 
 	if (stash->atlas) fons__deleteAtlas(stash->atlas);
-	if (stash->fonts) free(stash->fonts);
-	if (stash->texData) free(stash->texData);
-	if (stash->scratch) free(stash->scratch);
+	if (stash->fonts) NVG_FREE(stash->fonts);
+	if (stash->texData) NVG_FREE(stash->texData);
+	if (stash->scratch) NVG_FREE(stash->scratch);
 	fons__tt_done(stash);
-	free(stash);
+	NVG_FREE(stash);
 }
 
 void fonsSetErrorCallback(FONScontext* stash, void (*callback)(void* uptr, int error, int val), void* uptr)
@@ -1715,7 +1704,7 @@ int fonsExpandAtlas(FONScontext* stash, int width, int height)
 			return 0;
 	}
 	// Copy old texture data over.
-	data = (unsigned char*)malloc(width * height);
+	data = (unsigned char*)NVG_MALLOC(width * height);
 	if (data == NULL)
 		return 0;
 	for (i = 0; i < stash->params.height; i++) {
@@ -1728,7 +1717,7 @@ int fonsExpandAtlas(FONScontext* stash, int width, int height)
 	if (height > stash->params.height)
 		memset(&data[stash->params.height * width], 0, (height - stash->params.height) * width);
 
-	free(stash->texData);
+	NVG_FREE(stash->texData);
 	stash->texData = data;
 
 	// Increase atlas size
@@ -1768,7 +1757,7 @@ int fonsResetAtlas(FONScontext* stash, int width, int height)
 	fons__atlasReset(stash->atlas, width, height);
 
 	// Clear texture data.
-	stash->texData = (unsigned char*)realloc(stash->texData, width * height);
+	stash->texData = (unsigned char*)NVG_REALLOC(stash->texData, width * height);
 	if (stash->texData == NULL) return 0;
 	memset(stash->texData, 0, width * height);
 

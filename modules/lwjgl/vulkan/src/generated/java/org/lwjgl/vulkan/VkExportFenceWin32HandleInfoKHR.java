@@ -5,7 +5,7 @@
  */
 package org.lwjgl.vulkan;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import java.nio.*;
 
@@ -126,9 +126,8 @@ public class VkExportFenceWin32HandleInfoKHR extends Struct<VkExportFenceWin32Ha
     @NativeType("void const *")
     public long pNext() { return npNext(address()); }
     /** a pointer to a Windows {@code SECURITY_ATTRIBUTES} structure specifying security attributes of the handle. */
-    @Nullable
     @NativeType("SECURITY_ATTRIBUTES const *")
-    public SECURITY_ATTRIBUTES pAttributes() { return npAttributes(address()); }
+    public @Nullable SECURITY_ATTRIBUTES pAttributes() { return npAttributes(address()); }
     /** a {@code DWORD} specifying access rights of the handle. */
     @NativeType("DWORD")
     public int dwAccess() { return ndwAccess(address()); }
@@ -205,8 +204,7 @@ public class VkExportFenceWin32HandleInfoKHR extends Struct<VkExportFenceWin32Ha
     }
 
     /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkExportFenceWin32HandleInfoKHR createSafe(long address) {
+    public static @Nullable VkExportFenceWin32HandleInfoKHR createSafe(long address) {
         return address == NULL ? null : new VkExportFenceWin32HandleInfoKHR(address, null);
     }
 
@@ -249,8 +247,7 @@ public class VkExportFenceWin32HandleInfoKHR extends Struct<VkExportFenceWin32Ha
     }
 
     /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkExportFenceWin32HandleInfoKHR.Buffer createSafe(long address, int capacity) {
+    public static VkExportFenceWin32HandleInfoKHR.@Nullable Buffer createSafe(long address, int capacity) {
         return address == NULL ? null : new Buffer(address, capacity);
     }
 
@@ -314,26 +311,26 @@ public class VkExportFenceWin32HandleInfoKHR extends Struct<VkExportFenceWin32Ha
     // -----------------------------------
 
     /** Unsafe version of {@link #sType}. */
-    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + VkExportFenceWin32HandleInfoKHR.STYPE); }
+    public static int nsType(long struct) { return memGetInt(struct + VkExportFenceWin32HandleInfoKHR.STYPE); }
     /** Unsafe version of {@link #pNext}. */
     public static long npNext(long struct) { return memGetAddress(struct + VkExportFenceWin32HandleInfoKHR.PNEXT); }
     /** Unsafe version of {@link #pAttributes}. */
-    @Nullable public static SECURITY_ATTRIBUTES npAttributes(long struct) { return SECURITY_ATTRIBUTES.createSafe(memGetAddress(struct + VkExportFenceWin32HandleInfoKHR.PATTRIBUTES)); }
+    public static @Nullable SECURITY_ATTRIBUTES npAttributes(long struct) { return SECURITY_ATTRIBUTES.createSafe(memGetAddress(struct + VkExportFenceWin32HandleInfoKHR.PATTRIBUTES)); }
     /** Unsafe version of {@link #dwAccess}. */
-    public static int ndwAccess(long struct) { return UNSAFE.getInt(null, struct + VkExportFenceWin32HandleInfoKHR.DWACCESS); }
+    public static int ndwAccess(long struct) { return memGetInt(struct + VkExportFenceWin32HandleInfoKHR.DWACCESS); }
     /** Unsafe version of {@link #name}. */
     public static ByteBuffer nname(long struct) { return memByteBufferNT2(memGetAddress(struct + VkExportFenceWin32HandleInfoKHR.NAME)); }
     /** Unsafe version of {@link #nameString}. */
     public static String nnameString(long struct) { return memUTF16(memGetAddress(struct + VkExportFenceWin32HandleInfoKHR.NAME)); }
 
     /** Unsafe version of {@link #sType(int) sType}. */
-    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + VkExportFenceWin32HandleInfoKHR.STYPE, value); }
+    public static void nsType(long struct, int value) { memPutInt(struct + VkExportFenceWin32HandleInfoKHR.STYPE, value); }
     /** Unsafe version of {@link #pNext(long) pNext}. */
     public static void npNext(long struct, long value) { memPutAddress(struct + VkExportFenceWin32HandleInfoKHR.PNEXT, value); }
     /** Unsafe version of {@link #pAttributes(SECURITY_ATTRIBUTES) pAttributes}. */
     public static void npAttributes(long struct, @Nullable SECURITY_ATTRIBUTES value) { memPutAddress(struct + VkExportFenceWin32HandleInfoKHR.PATTRIBUTES, memAddressSafe(value)); }
     /** Unsafe version of {@link #dwAccess(int) dwAccess}. */
-    public static void ndwAccess(long struct, int value) { UNSAFE.putInt(null, struct + VkExportFenceWin32HandleInfoKHR.DWACCESS, value); }
+    public static void ndwAccess(long struct, int value) { memPutInt(struct + VkExportFenceWin32HandleInfoKHR.DWACCESS, value); }
     /** Unsafe version of {@link #name(ByteBuffer) name}. */
     public static void nname(long struct, ByteBuffer value) {
         if (CHECKS) { checkNT2(value); }
@@ -387,6 +384,11 @@ public class VkExportFenceWin32HandleInfoKHR extends Struct<VkExportFenceWin32Ha
         }
 
         @Override
+        protected Buffer create(long address, @Nullable ByteBuffer container, int mark, int position, int limit, int capacity) {
+            return new Buffer(address, container, mark, position, limit, capacity);
+        }
+
+        @Override
         protected VkExportFenceWin32HandleInfoKHR getElementFactory() {
             return ELEMENT_FACTORY;
         }
@@ -398,9 +400,8 @@ public class VkExportFenceWin32HandleInfoKHR extends Struct<VkExportFenceWin32Ha
         @NativeType("void const *")
         public long pNext() { return VkExportFenceWin32HandleInfoKHR.npNext(address()); }
         /** @return a {@link SECURITY_ATTRIBUTES} view of the struct pointed to by the {@link VkExportFenceWin32HandleInfoKHR#pAttributes} field. */
-        @Nullable
         @NativeType("SECURITY_ATTRIBUTES const *")
-        public SECURITY_ATTRIBUTES pAttributes() { return VkExportFenceWin32HandleInfoKHR.npAttributes(address()); }
+        public @Nullable SECURITY_ATTRIBUTES pAttributes() { return VkExportFenceWin32HandleInfoKHR.npAttributes(address()); }
         /** @return the value of the {@link VkExportFenceWin32HandleInfoKHR#dwAccess} field. */
         @NativeType("DWORD")
         public int dwAccess() { return VkExportFenceWin32HandleInfoKHR.ndwAccess(address()); }

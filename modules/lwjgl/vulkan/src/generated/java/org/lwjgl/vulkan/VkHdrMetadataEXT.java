@@ -5,7 +5,7 @@
  */
 package org.lwjgl.vulkan;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import java.nio.*;
 
@@ -243,8 +243,7 @@ public class VkHdrMetadataEXT extends Struct<VkHdrMetadataEXT> implements Native
     }
 
     /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkHdrMetadataEXT createSafe(long address) {
+    public static @Nullable VkHdrMetadataEXT createSafe(long address) {
         return address == NULL ? null : new VkHdrMetadataEXT(address, null);
     }
 
@@ -287,8 +286,7 @@ public class VkHdrMetadataEXT extends Struct<VkHdrMetadataEXT> implements Native
     }
 
     /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkHdrMetadataEXT.Buffer createSafe(long address, int capacity) {
+    public static VkHdrMetadataEXT.@Nullable Buffer createSafe(long address, int capacity) {
         return address == NULL ? null : new Buffer(address, capacity);
     }
 
@@ -352,7 +350,7 @@ public class VkHdrMetadataEXT extends Struct<VkHdrMetadataEXT> implements Native
     // -----------------------------------
 
     /** Unsafe version of {@link #sType}. */
-    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + VkHdrMetadataEXT.STYPE); }
+    public static int nsType(long struct) { return memGetInt(struct + VkHdrMetadataEXT.STYPE); }
     /** Unsafe version of {@link #pNext}. */
     public static long npNext(long struct) { return memGetAddress(struct + VkHdrMetadataEXT.PNEXT); }
     /** Unsafe version of {@link #displayPrimaryRed}. */
@@ -364,16 +362,16 @@ public class VkHdrMetadataEXT extends Struct<VkHdrMetadataEXT> implements Native
     /** Unsafe version of {@link #whitePoint}. */
     public static VkXYColorEXT nwhitePoint(long struct) { return VkXYColorEXT.create(struct + VkHdrMetadataEXT.WHITEPOINT); }
     /** Unsafe version of {@link #maxLuminance}. */
-    public static float nmaxLuminance(long struct) { return UNSAFE.getFloat(null, struct + VkHdrMetadataEXT.MAXLUMINANCE); }
+    public static float nmaxLuminance(long struct) { return memGetFloat(struct + VkHdrMetadataEXT.MAXLUMINANCE); }
     /** Unsafe version of {@link #minLuminance}. */
-    public static float nminLuminance(long struct) { return UNSAFE.getFloat(null, struct + VkHdrMetadataEXT.MINLUMINANCE); }
+    public static float nminLuminance(long struct) { return memGetFloat(struct + VkHdrMetadataEXT.MINLUMINANCE); }
     /** Unsafe version of {@link #maxContentLightLevel}. */
-    public static float nmaxContentLightLevel(long struct) { return UNSAFE.getFloat(null, struct + VkHdrMetadataEXT.MAXCONTENTLIGHTLEVEL); }
+    public static float nmaxContentLightLevel(long struct) { return memGetFloat(struct + VkHdrMetadataEXT.MAXCONTENTLIGHTLEVEL); }
     /** Unsafe version of {@link #maxFrameAverageLightLevel}. */
-    public static float nmaxFrameAverageLightLevel(long struct) { return UNSAFE.getFloat(null, struct + VkHdrMetadataEXT.MAXFRAMEAVERAGELIGHTLEVEL); }
+    public static float nmaxFrameAverageLightLevel(long struct) { return memGetFloat(struct + VkHdrMetadataEXT.MAXFRAMEAVERAGELIGHTLEVEL); }
 
     /** Unsafe version of {@link #sType(int) sType}. */
-    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + VkHdrMetadataEXT.STYPE, value); }
+    public static void nsType(long struct, int value) { memPutInt(struct + VkHdrMetadataEXT.STYPE, value); }
     /** Unsafe version of {@link #pNext(long) pNext}. */
     public static void npNext(long struct, long value) { memPutAddress(struct + VkHdrMetadataEXT.PNEXT, value); }
     /** Unsafe version of {@link #displayPrimaryRed(VkXYColorEXT) displayPrimaryRed}. */
@@ -385,13 +383,13 @@ public class VkHdrMetadataEXT extends Struct<VkHdrMetadataEXT> implements Native
     /** Unsafe version of {@link #whitePoint(VkXYColorEXT) whitePoint}. */
     public static void nwhitePoint(long struct, VkXYColorEXT value) { memCopy(value.address(), struct + VkHdrMetadataEXT.WHITEPOINT, VkXYColorEXT.SIZEOF); }
     /** Unsafe version of {@link #maxLuminance(float) maxLuminance}. */
-    public static void nmaxLuminance(long struct, float value) { UNSAFE.putFloat(null, struct + VkHdrMetadataEXT.MAXLUMINANCE, value); }
+    public static void nmaxLuminance(long struct, float value) { memPutFloat(struct + VkHdrMetadataEXT.MAXLUMINANCE, value); }
     /** Unsafe version of {@link #minLuminance(float) minLuminance}. */
-    public static void nminLuminance(long struct, float value) { UNSAFE.putFloat(null, struct + VkHdrMetadataEXT.MINLUMINANCE, value); }
+    public static void nminLuminance(long struct, float value) { memPutFloat(struct + VkHdrMetadataEXT.MINLUMINANCE, value); }
     /** Unsafe version of {@link #maxContentLightLevel(float) maxContentLightLevel}. */
-    public static void nmaxContentLightLevel(long struct, float value) { UNSAFE.putFloat(null, struct + VkHdrMetadataEXT.MAXCONTENTLIGHTLEVEL, value); }
+    public static void nmaxContentLightLevel(long struct, float value) { memPutFloat(struct + VkHdrMetadataEXT.MAXCONTENTLIGHTLEVEL, value); }
     /** Unsafe version of {@link #maxFrameAverageLightLevel(float) maxFrameAverageLightLevel}. */
-    public static void nmaxFrameAverageLightLevel(long struct, float value) { UNSAFE.putFloat(null, struct + VkHdrMetadataEXT.MAXFRAMEAVERAGELIGHTLEVEL, value); }
+    public static void nmaxFrameAverageLightLevel(long struct, float value) { memPutFloat(struct + VkHdrMetadataEXT.MAXFRAMEAVERAGELIGHTLEVEL, value); }
 
     // -----------------------------------
 
@@ -424,6 +422,11 @@ public class VkHdrMetadataEXT extends Struct<VkHdrMetadataEXT> implements Native
         @Override
         protected Buffer self() {
             return this;
+        }
+
+        @Override
+        protected Buffer create(long address, @Nullable ByteBuffer container, int mark, int position, int limit, int capacity) {
+            return new Buffer(address, container, mark, position, limit, capacity);
         }
 
         @Override

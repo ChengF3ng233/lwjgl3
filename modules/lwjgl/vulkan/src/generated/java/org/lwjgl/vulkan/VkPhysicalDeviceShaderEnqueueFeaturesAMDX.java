@@ -5,7 +5,7 @@
  */
 package org.lwjgl.vulkan;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import java.nio.*;
 
@@ -156,8 +156,7 @@ public class VkPhysicalDeviceShaderEnqueueFeaturesAMDX extends Struct<VkPhysical
     }
 
     /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkPhysicalDeviceShaderEnqueueFeaturesAMDX createSafe(long address) {
+    public static @Nullable VkPhysicalDeviceShaderEnqueueFeaturesAMDX createSafe(long address) {
         return address == NULL ? null : new VkPhysicalDeviceShaderEnqueueFeaturesAMDX(address, null);
     }
 
@@ -200,8 +199,7 @@ public class VkPhysicalDeviceShaderEnqueueFeaturesAMDX extends Struct<VkPhysical
     }
 
     /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkPhysicalDeviceShaderEnqueueFeaturesAMDX.Buffer createSafe(long address, int capacity) {
+    public static VkPhysicalDeviceShaderEnqueueFeaturesAMDX.@Nullable Buffer createSafe(long address, int capacity) {
         return address == NULL ? null : new Buffer(address, capacity);
     }
 
@@ -246,18 +244,18 @@ public class VkPhysicalDeviceShaderEnqueueFeaturesAMDX extends Struct<VkPhysical
     // -----------------------------------
 
     /** Unsafe version of {@link #sType}. */
-    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + VkPhysicalDeviceShaderEnqueueFeaturesAMDX.STYPE); }
+    public static int nsType(long struct) { return memGetInt(struct + VkPhysicalDeviceShaderEnqueueFeaturesAMDX.STYPE); }
     /** Unsafe version of {@link #pNext}. */
     public static long npNext(long struct) { return memGetAddress(struct + VkPhysicalDeviceShaderEnqueueFeaturesAMDX.PNEXT); }
     /** Unsafe version of {@link #shaderEnqueue}. */
-    public static int nshaderEnqueue(long struct) { return UNSAFE.getInt(null, struct + VkPhysicalDeviceShaderEnqueueFeaturesAMDX.SHADERENQUEUE); }
+    public static int nshaderEnqueue(long struct) { return memGetInt(struct + VkPhysicalDeviceShaderEnqueueFeaturesAMDX.SHADERENQUEUE); }
 
     /** Unsafe version of {@link #sType(int) sType}. */
-    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + VkPhysicalDeviceShaderEnqueueFeaturesAMDX.STYPE, value); }
+    public static void nsType(long struct, int value) { memPutInt(struct + VkPhysicalDeviceShaderEnqueueFeaturesAMDX.STYPE, value); }
     /** Unsafe version of {@link #pNext(long) pNext}. */
     public static void npNext(long struct, long value) { memPutAddress(struct + VkPhysicalDeviceShaderEnqueueFeaturesAMDX.PNEXT, value); }
     /** Unsafe version of {@link #shaderEnqueue(boolean) shaderEnqueue}. */
-    public static void nshaderEnqueue(long struct, int value) { UNSAFE.putInt(null, struct + VkPhysicalDeviceShaderEnqueueFeaturesAMDX.SHADERENQUEUE, value); }
+    public static void nshaderEnqueue(long struct, int value) { memPutInt(struct + VkPhysicalDeviceShaderEnqueueFeaturesAMDX.SHADERENQUEUE, value); }
 
     // -----------------------------------
 
@@ -290,6 +288,11 @@ public class VkPhysicalDeviceShaderEnqueueFeaturesAMDX extends Struct<VkPhysical
         @Override
         protected Buffer self() {
             return this;
+        }
+
+        @Override
+        protected Buffer create(long address, @Nullable ByteBuffer container, int mark, int position, int limit, int capacity) {
+            return new Buffer(address, container, mark, position, limit, capacity);
         }
 
         @Override

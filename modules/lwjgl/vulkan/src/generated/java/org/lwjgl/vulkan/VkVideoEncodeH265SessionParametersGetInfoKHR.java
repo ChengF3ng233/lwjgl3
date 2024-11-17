@@ -5,7 +5,7 @@
  */
 package org.lwjgl.vulkan;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import java.nio.*;
 
@@ -223,8 +223,7 @@ public class VkVideoEncodeH265SessionParametersGetInfoKHR extends Struct<VkVideo
     }
 
     /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkVideoEncodeH265SessionParametersGetInfoKHR createSafe(long address) {
+    public static @Nullable VkVideoEncodeH265SessionParametersGetInfoKHR createSafe(long address) {
         return address == NULL ? null : new VkVideoEncodeH265SessionParametersGetInfoKHR(address, null);
     }
 
@@ -267,8 +266,7 @@ public class VkVideoEncodeH265SessionParametersGetInfoKHR extends Struct<VkVideo
     }
 
     /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkVideoEncodeH265SessionParametersGetInfoKHR.Buffer createSafe(long address, int capacity) {
+    public static VkVideoEncodeH265SessionParametersGetInfoKHR.@Nullable Buffer createSafe(long address, int capacity) {
         return address == NULL ? null : new Buffer(address, capacity);
     }
 
@@ -313,38 +311,38 @@ public class VkVideoEncodeH265SessionParametersGetInfoKHR extends Struct<VkVideo
     // -----------------------------------
 
     /** Unsafe version of {@link #sType}. */
-    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STYPE); }
+    public static int nsType(long struct) { return memGetInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STYPE); }
     /** Unsafe version of {@link #pNext}. */
     public static long npNext(long struct) { return memGetAddress(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.PNEXT); }
     /** Unsafe version of {@link #writeStdVPS}. */
-    public static int nwriteStdVPS(long struct) { return UNSAFE.getInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.WRITESTDVPS); }
+    public static int nwriteStdVPS(long struct) { return memGetInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.WRITESTDVPS); }
     /** Unsafe version of {@link #writeStdSPS}. */
-    public static int nwriteStdSPS(long struct) { return UNSAFE.getInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.WRITESTDSPS); }
+    public static int nwriteStdSPS(long struct) { return memGetInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.WRITESTDSPS); }
     /** Unsafe version of {@link #writeStdPPS}. */
-    public static int nwriteStdPPS(long struct) { return UNSAFE.getInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.WRITESTDPPS); }
+    public static int nwriteStdPPS(long struct) { return memGetInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.WRITESTDPPS); }
     /** Unsafe version of {@link #stdVPSId}. */
-    public static int nstdVPSId(long struct) { return UNSAFE.getInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STDVPSID); }
+    public static int nstdVPSId(long struct) { return memGetInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STDVPSID); }
     /** Unsafe version of {@link #stdSPSId}. */
-    public static int nstdSPSId(long struct) { return UNSAFE.getInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STDSPSID); }
+    public static int nstdSPSId(long struct) { return memGetInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STDSPSID); }
     /** Unsafe version of {@link #stdPPSId}. */
-    public static int nstdPPSId(long struct) { return UNSAFE.getInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STDPPSID); }
+    public static int nstdPPSId(long struct) { return memGetInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STDPPSID); }
 
     /** Unsafe version of {@link #sType(int) sType}. */
-    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STYPE, value); }
+    public static void nsType(long struct, int value) { memPutInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STYPE, value); }
     /** Unsafe version of {@link #pNext(long) pNext}. */
     public static void npNext(long struct, long value) { memPutAddress(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.PNEXT, value); }
     /** Unsafe version of {@link #writeStdVPS(boolean) writeStdVPS}. */
-    public static void nwriteStdVPS(long struct, int value) { UNSAFE.putInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.WRITESTDVPS, value); }
+    public static void nwriteStdVPS(long struct, int value) { memPutInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.WRITESTDVPS, value); }
     /** Unsafe version of {@link #writeStdSPS(boolean) writeStdSPS}. */
-    public static void nwriteStdSPS(long struct, int value) { UNSAFE.putInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.WRITESTDSPS, value); }
+    public static void nwriteStdSPS(long struct, int value) { memPutInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.WRITESTDSPS, value); }
     /** Unsafe version of {@link #writeStdPPS(boolean) writeStdPPS}. */
-    public static void nwriteStdPPS(long struct, int value) { UNSAFE.putInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.WRITESTDPPS, value); }
+    public static void nwriteStdPPS(long struct, int value) { memPutInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.WRITESTDPPS, value); }
     /** Unsafe version of {@link #stdVPSId(int) stdVPSId}. */
-    public static void nstdVPSId(long struct, int value) { UNSAFE.putInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STDVPSID, value); }
+    public static void nstdVPSId(long struct, int value) { memPutInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STDVPSID, value); }
     /** Unsafe version of {@link #stdSPSId(int) stdSPSId}. */
-    public static void nstdSPSId(long struct, int value) { UNSAFE.putInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STDSPSID, value); }
+    public static void nstdSPSId(long struct, int value) { memPutInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STDSPSID, value); }
     /** Unsafe version of {@link #stdPPSId(int) stdPPSId}. */
-    public static void nstdPPSId(long struct, int value) { UNSAFE.putInt(null, struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STDPPSID, value); }
+    public static void nstdPPSId(long struct, int value) { memPutInt(struct + VkVideoEncodeH265SessionParametersGetInfoKHR.STDPPSID, value); }
 
     // -----------------------------------
 
@@ -377,6 +375,11 @@ public class VkVideoEncodeH265SessionParametersGetInfoKHR extends Struct<VkVideo
         @Override
         protected Buffer self() {
             return this;
+        }
+
+        @Override
+        protected Buffer create(long address, @Nullable ByteBuffer container, int mark, int position, int limit, int capacity) {
+            return new Buffer(address, container, mark, position, limit, capacity);
         }
 
         @Override

@@ -26,7 +26,7 @@
 #include "fontstash.h"
 
 #ifndef NVG_NO_STB
-#define STB_IMAGE_IMPLEMENTATION
+//#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 #endif
 
@@ -170,29 +170,29 @@ static float nvg__normalize(float *x, float* y)
 static void nvg__deletePathCache(NVGpathCache* c)
 {
 	if (c == NULL) return;
-	if (c->points != NULL) free(c->points);
-	if (c->paths != NULL) free(c->paths);
-	if (c->verts != NULL) free(c->verts);
-	free(c);
+	if (c->points != NULL) NVG_FREE(c->points);
+	if (c->paths != NULL) NVG_FREE(c->paths);
+	if (c->verts != NULL) NVG_FREE(c->verts);
+	NVG_FREE(c);
 }
 
 static NVGpathCache* nvg__allocPathCache(void)
 {
-	NVGpathCache* c = (NVGpathCache*)malloc(sizeof(NVGpathCache));
+	NVGpathCache* c = (NVGpathCache*)NVG_MALLOC(sizeof(NVGpathCache));
 	if (c == NULL) goto error;
 	memset(c, 0, sizeof(NVGpathCache));
 
-	c->points = (NVGpoint*)malloc(sizeof(NVGpoint)*NVG_INIT_POINTS_SIZE);
+	c->points = (NVGpoint*)NVG_MALLOC(sizeof(NVGpoint)*NVG_INIT_POINTS_SIZE);
 	if (!c->points) goto error;
 	c->npoints = 0;
 	c->cpoints = NVG_INIT_POINTS_SIZE;
 
-	c->paths = (NVGpath*)malloc(sizeof(NVGpath)*NVG_INIT_PATHS_SIZE);
+	c->paths = (NVGpath*)NVG_MALLOC(sizeof(NVGpath)*NVG_INIT_PATHS_SIZE);
 	if (!c->paths) goto error;
 	c->npaths = 0;
 	c->cpaths = NVG_INIT_PATHS_SIZE;
 
-	c->verts = (NVGvertex*)malloc(sizeof(NVGvertex)*NVG_INIT_VERTS_SIZE);
+	c->verts = (NVGvertex*)NVG_MALLOC(sizeof(NVGvertex)*NVG_INIT_VERTS_SIZE);
 	if (!c->verts) goto error;
 	c->nverts = 0;
 	c->cverts = NVG_INIT_VERTS_SIZE;
@@ -292,7 +292,7 @@ static NVGstate* nvg__getState(NVGcontext* ctx)
 NVGcontext* nvgCreateInternal(NVGparams* params)
 {
 	FONSparams fontParams;
-	NVGcontext* ctx = (NVGcontext*)malloc(sizeof(NVGcontext));
+	NVGcontext* ctx = (NVGcontext*)NVG_MALLOC(sizeof(NVGcontext));
 	int i;
 	if (ctx == NULL) goto error;
 	memset(ctx, 0, sizeof(NVGcontext));
@@ -301,7 +301,7 @@ NVGcontext* nvgCreateInternal(NVGparams* params)
 	for (i = 0; i < NVG_MAX_FONTIMAGES; i++)
 		ctx->fontImages[i] = 0;
 
-	ctx->commands = (float*)malloc(sizeof(float)*NVG_INIT_COMMANDS_SIZE);
+	ctx->commands = (float*)NVG_MALLOC(sizeof(float)*NVG_INIT_COMMANDS_SIZE);
 	if (!ctx->commands) goto error;
 	ctx->ncommands = 0;
 	ctx->ccommands = NVG_INIT_COMMANDS_SIZE;
@@ -350,7 +350,7 @@ void nvgDeleteInternal(NVGcontext* ctx)
 {
 	int i;
 	if (ctx == NULL) return;
-	if (ctx->commands != NULL) free(ctx->commands);
+	if (ctx->commands != NULL) NVG_FREE(ctx->commands);
 	if (ctx->cache != NULL) nvg__deletePathCache(ctx->cache);
 
 	if (ctx->fs)
@@ -366,7 +366,7 @@ void nvgDeleteInternal(NVGcontext* ctx)
 	if (ctx->params.renderDelete != NULL)
 		ctx->params.renderDelete(ctx->params.userPtr);
 
-	free(ctx);
+	NVG_FREE(ctx);
 }
 
 void nvgBeginFrame(NVGcontext* ctx, float windowWidth, float windowHeight, float devicePixelRatio)
@@ -1085,7 +1085,7 @@ static void nvg__appendCommands(NVGcontext* ctx, float* vals, int nvals)
 	if (ctx->ncommands+nvals > ctx->ccommands) {
 		float* commands;
 		int ccommands = ctx->ncommands+nvals + ctx->ccommands/2;
-		commands = (float*)realloc(ctx->commands, sizeof(float)*ccommands);
+		commands = (float*)NVG_REALLOC(ctx->commands, sizeof(float)*ccommands);
 		if (commands == NULL) return;
 		ctx->commands = commands;
 		ctx->ccommands = ccommands;
@@ -1151,7 +1151,7 @@ static void nvg__addPath(NVGcontext* ctx)
 	if (ctx->cache->npaths+1 > ctx->cache->cpaths) {
 		NVGpath* paths;
 		int cpaths = ctx->cache->npaths+1 + ctx->cache->cpaths/2;
-		paths = (NVGpath*)realloc(ctx->cache->paths, sizeof(NVGpath)*cpaths);
+		paths = (NVGpath*)NVG_REALLOC(ctx->cache->paths, sizeof(NVGpath)*cpaths);
 		if (paths == NULL) return;
 		ctx->cache->paths = paths;
 		ctx->cache->cpaths = cpaths;
@@ -1188,7 +1188,7 @@ static void nvg__addPoint(NVGcontext* ctx, float x, float y, int flags)
 	if (ctx->cache->npoints+1 > ctx->cache->cpoints) {
 		NVGpoint* points;
 		int cpoints = ctx->cache->npoints+1 + ctx->cache->cpoints/2;
-		points = (NVGpoint*)realloc(ctx->cache->points, sizeof(NVGpoint)*cpoints);
+		points = (NVGpoint*)NVG_REALLOC(ctx->cache->points, sizeof(NVGpoint)*cpoints);
 		if (points == NULL) return;
 		ctx->cache->points = points;
 		ctx->cache->cpoints = cpoints;
@@ -1230,7 +1230,7 @@ static NVGvertex* nvg__allocTempVerts(NVGcontext* ctx, int nverts)
 	if (nverts > ctx->cache->cverts) {
 		NVGvertex* verts;
 		int cverts = (nverts + 0xff) & ~0xff; // Round up to prevent allocations when things change just slightly.
-		verts = (NVGvertex*)realloc(ctx->cache->verts, sizeof(NVGvertex)*cverts);
+		verts = (NVGvertex*)NVG_REALLOC(ctx->cache->verts, sizeof(NVGvertex)*cverts);
 		if (verts == NULL) return NULL;
 		ctx->cache->verts = verts;
 		ctx->cache->cverts = cverts;
@@ -2490,7 +2490,7 @@ float nvgText(NVGcontext* ctx, float x, float y, const char* string, const char*
 	verts = nvg__allocTempVerts(ctx, cverts);
 	if (verts == NULL) return x;
 
-	fonsTextIterInit(ctx->fs, &iter, 0, 0, string, end, FONS_GLYPH_BITMAP_REQUIRED);
+	fonsTextIterInit(ctx->fs, &iter, x*scale, y*scale, string, end, FONS_GLYPH_BITMAP_REQUIRED);
 	prevIter = iter;
 	while (fonsTextIterNext(ctx->fs, &iter, &q)) {
 		float c[4*2];
@@ -2514,10 +2514,10 @@ float nvgText(NVGcontext* ctx, float x, float y, const char* string, const char*
 			tmp = q.t0; q.t0 = q.t1; q.t1 = tmp;
 		}
 		// Transform corners.
-		nvgTransformPoint(&c[0],&c[1], state->xform, q.x0*invscale + x, q.y0*invscale + y);
-		nvgTransformPoint(&c[2],&c[3], state->xform, q.x1*invscale + x, q.y0*invscale + y);
-		nvgTransformPoint(&c[4],&c[5], state->xform, q.x1*invscale + x, q.y1*invscale + y);
-		nvgTransformPoint(&c[6],&c[7], state->xform, q.x0*invscale + x, q.y1*invscale + y);
+		nvgTransformPoint(&c[0],&c[1], state->xform, q.x0*invscale, q.y0*invscale);
+		nvgTransformPoint(&c[2],&c[3], state->xform, q.x1*invscale, q.y0*invscale);
+		nvgTransformPoint(&c[4],&c[5], state->xform, q.x1*invscale, q.y1*invscale);
+		nvgTransformPoint(&c[6],&c[7], state->xform, q.x0*invscale, q.y1*invscale);
 		// Create triangles
 		if (nverts+6 <= cverts) {
 			nvg__vset(&verts[nverts], c[0], c[1], q.s0, q.t0); nverts++;
@@ -2534,7 +2534,7 @@ float nvgText(NVGcontext* ctx, float x, float y, const char* string, const char*
 
 	nvg__renderText(ctx, verts, nverts);
 
-	return iter.nextx * invscale + x;
+	return iter.nextx / scale;
 }
 
 void nvgTextBox(NVGcontext* ctx, float x, float y, float breakRowWidth, const char* string, const char* end)
@@ -2593,7 +2593,7 @@ int nvgTextGlyphPositions(NVGcontext* ctx, float x, float y, const char* string,
 	fonsSetAlign(ctx->fs, state->textAlign);
 	fonsSetFont(ctx->fs, state->fontId);
 
-	fonsTextIterInit(ctx->fs, &iter, 0, 0, string, end, FONS_GLYPH_BITMAP_OPTIONAL);
+	fonsTextIterInit(ctx->fs, &iter, x*scale, y*scale, string, end, FONS_GLYPH_BITMAP_OPTIONAL);
 	prevIter = iter;
 	while (fonsTextIterNext(ctx->fs, &iter, &q)) {
 		if (iter.prevGlyphIndex < 0 && nvg__allocTextAtlas(ctx)) { // can not retrieve glyph?
@@ -2602,9 +2602,9 @@ int nvgTextGlyphPositions(NVGcontext* ctx, float x, float y, const char* string,
 		}
 		prevIter = iter;
 		positions[npos].str = iter.str;
-		positions[npos].x = (iter.x + iter.kern_adjust) * invscale;
-		positions[npos].minx = nvg__minf(iter.x, q.x0) * invscale + x;
-		positions[npos].maxx = nvg__maxf(iter.nextx, q.x1) * invscale + x;
+		positions[npos].x = iter.x * invscale;
+		positions[npos].minx = nvg__minf(iter.x, q.x0) * invscale;
+		positions[npos].maxx = nvg__maxf(iter.nextx, q.x1) * invscale;
 		npos++;
 		if (npos >= maxPositions)
 			break;
@@ -2841,14 +2841,14 @@ float nvgTextBounds(NVGcontext* ctx, float x, float y, const char* string, const
 	fonsSetAlign(ctx->fs, state->textAlign);
 	fonsSetFont(ctx->fs, state->fontId);
 
-	width = fonsTextBounds(ctx->fs, 0, 0, string, end, bounds);
+	width = fonsTextBounds(ctx->fs, x*scale, y*scale, string, end, bounds);
 	if (bounds != NULL) {
 		// Use line bounds for height.
-		fonsLineBounds(ctx->fs, 0, &bounds[1], &bounds[3]);
-		bounds[0] = bounds[0] * invscale + x;
-		bounds[1] = bounds[1] * invscale + y;
-		bounds[2] = bounds[2] * invscale + x;
-		bounds[3] = bounds[3] * invscale + y;
+		fonsLineBounds(ctx->fs, y*scale, &bounds[1], &bounds[3]);
+		bounds[0] *= invscale;
+		bounds[1] *= invscale;
+		bounds[2] *= invscale;
+		bounds[3] *= invscale;
 	}
 	return width * invscale;
 }
@@ -2859,7 +2859,6 @@ void nvgTextBoxBounds(NVGcontext* ctx, float x, float y, float breakRowWidth, co
 	NVGtextRow rows[2];
 	float scale = nvg__getFontScale(state) * ctx->devicePxRatio;
 	float invscale = 1.0f / scale;
-	float yoff = 0;
 	int nrows = 0, i;
 	int oldAlign = state->textAlign;
 	int halign = state->textAlign & (NVG_ALIGN_LEFT | NVG_ALIGN_CENTER | NVG_ALIGN_RIGHT);
@@ -2877,8 +2876,8 @@ void nvgTextBoxBounds(NVGcontext* ctx, float x, float y, float breakRowWidth, co
 
 	state->textAlign = NVG_ALIGN_LEFT | valign;
 
-	minx = maxx = 0;
-	miny = maxy = 0;
+	minx = maxx = x;
+	miny = maxy = y;
 
 	fonsSetSize(ctx->fs, state->fontSize*scale);
 	fonsSetSpacing(ctx->fs, state->letterSpacing*scale);
@@ -2900,15 +2899,15 @@ void nvgTextBoxBounds(NVGcontext* ctx, float x, float y, float breakRowWidth, co
 				dx = breakRowWidth*0.5f - row->width*0.5f;
 			else if (halign & NVG_ALIGN_RIGHT)
 				dx = breakRowWidth - row->width;
-			rminx = row->minx + dx;
-			rmaxx = row->maxx + dx;
+			rminx = x + row->minx + dx;
+			rmaxx = x + row->maxx + dx;
 			minx = nvg__minf(minx, rminx);
 			maxx = nvg__maxf(maxx, rmaxx);
 			// Vertical bounds.
-			miny = nvg__minf(miny, yoff + rminy);
-			maxy = nvg__maxf(maxy, yoff + rmaxy);
+			miny = nvg__minf(miny, y + rminy);
+			maxy = nvg__maxf(maxy, y + rmaxy);
 
-			yoff += lineh * state->lineHeight;
+			y += lineh * state->lineHeight;
 		}
 		string = rows[nrows-1].next;
 	}
@@ -2916,10 +2915,10 @@ void nvgTextBoxBounds(NVGcontext* ctx, float x, float y, float breakRowWidth, co
 	state->textAlign = oldAlign;
 
 	if (bounds != NULL) {
-		bounds[0] = minx + x;
-		bounds[1] = miny + y;
-		bounds[2] = maxx + x;
-		bounds[3] = maxy + y;
+		bounds[0] = minx;
+		bounds[1] = miny;
+		bounds[2] = maxx;
+		bounds[3] = maxy;
 	}
 }
 

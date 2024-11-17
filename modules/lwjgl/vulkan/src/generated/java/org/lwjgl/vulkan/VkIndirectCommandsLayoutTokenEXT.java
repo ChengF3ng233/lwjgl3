@@ -5,7 +5,7 @@
  */
 package org.lwjgl.vulkan;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import java.nio.*;
 
@@ -196,8 +196,7 @@ public class VkIndirectCommandsLayoutTokenEXT extends Struct<VkIndirectCommandsL
     }
 
     /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkIndirectCommandsLayoutTokenEXT createSafe(long address) {
+    public static @Nullable VkIndirectCommandsLayoutTokenEXT createSafe(long address) {
         return address == NULL ? null : new VkIndirectCommandsLayoutTokenEXT(address, null);
     }
 
@@ -240,8 +239,7 @@ public class VkIndirectCommandsLayoutTokenEXT extends Struct<VkIndirectCommandsL
     }
 
     /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkIndirectCommandsLayoutTokenEXT.Buffer createSafe(long address, int capacity) {
+    public static VkIndirectCommandsLayoutTokenEXT.@Nullable Buffer createSafe(long address, int capacity) {
         return address == NULL ? null : new Buffer(address, capacity);
     }
 
@@ -286,26 +284,26 @@ public class VkIndirectCommandsLayoutTokenEXT extends Struct<VkIndirectCommandsL
     // -----------------------------------
 
     /** Unsafe version of {@link #sType}. */
-    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + VkIndirectCommandsLayoutTokenEXT.STYPE); }
+    public static int nsType(long struct) { return memGetInt(struct + VkIndirectCommandsLayoutTokenEXT.STYPE); }
     /** Unsafe version of {@link #pNext}. */
     public static long npNext(long struct) { return memGetAddress(struct + VkIndirectCommandsLayoutTokenEXT.PNEXT); }
     /** Unsafe version of {@link #type}. */
-    public static int ntype(long struct) { return UNSAFE.getInt(null, struct + VkIndirectCommandsLayoutTokenEXT.TYPE); }
+    public static int ntype(long struct) { return memGetInt(struct + VkIndirectCommandsLayoutTokenEXT.TYPE); }
     /** Unsafe version of {@link #data}. */
     public static VkIndirectCommandsTokenDataEXT ndata(long struct) { return VkIndirectCommandsTokenDataEXT.create(struct + VkIndirectCommandsLayoutTokenEXT.DATA); }
     /** Unsafe version of {@link #offset}. */
-    public static int noffset(long struct) { return UNSAFE.getInt(null, struct + VkIndirectCommandsLayoutTokenEXT.OFFSET); }
+    public static int noffset(long struct) { return memGetInt(struct + VkIndirectCommandsLayoutTokenEXT.OFFSET); }
 
     /** Unsafe version of {@link #sType(int) sType}. */
-    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + VkIndirectCommandsLayoutTokenEXT.STYPE, value); }
+    public static void nsType(long struct, int value) { memPutInt(struct + VkIndirectCommandsLayoutTokenEXT.STYPE, value); }
     /** Unsafe version of {@link #pNext(long) pNext}. */
     public static void npNext(long struct, long value) { memPutAddress(struct + VkIndirectCommandsLayoutTokenEXT.PNEXT, value); }
     /** Unsafe version of {@link #type(int) type}. */
-    public static void ntype(long struct, int value) { UNSAFE.putInt(null, struct + VkIndirectCommandsLayoutTokenEXT.TYPE, value); }
+    public static void ntype(long struct, int value) { memPutInt(struct + VkIndirectCommandsLayoutTokenEXT.TYPE, value); }
     /** Unsafe version of {@link #data(VkIndirectCommandsTokenDataEXT) data}. */
     public static void ndata(long struct, VkIndirectCommandsTokenDataEXT value) { memCopy(value.address(), struct + VkIndirectCommandsLayoutTokenEXT.DATA, VkIndirectCommandsTokenDataEXT.SIZEOF); }
     /** Unsafe version of {@link #offset(int) offset}. */
-    public static void noffset(long struct, int value) { UNSAFE.putInt(null, struct + VkIndirectCommandsLayoutTokenEXT.OFFSET, value); }
+    public static void noffset(long struct, int value) { memPutInt(struct + VkIndirectCommandsLayoutTokenEXT.OFFSET, value); }
 
     // -----------------------------------
 
@@ -338,6 +336,11 @@ public class VkIndirectCommandsLayoutTokenEXT extends Struct<VkIndirectCommandsL
         @Override
         protected Buffer self() {
             return this;
+        }
+
+        @Override
+        protected Buffer create(long address, @Nullable ByteBuffer container, int mark, int position, int limit, int capacity) {
+            return new Buffer(address, container, mark, position, limit, capacity);
         }
 
         @Override

@@ -5,7 +5,7 @@
  */
 package org.lwjgl.vulkan;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import java.nio.*;
 
@@ -178,8 +178,7 @@ public class VkRenderingFragmentDensityMapAttachmentInfoEXT extends Struct<VkRen
     }
 
     /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkRenderingFragmentDensityMapAttachmentInfoEXT createSafe(long address) {
+    public static @Nullable VkRenderingFragmentDensityMapAttachmentInfoEXT createSafe(long address) {
         return address == NULL ? null : new VkRenderingFragmentDensityMapAttachmentInfoEXT(address, null);
     }
 
@@ -222,8 +221,7 @@ public class VkRenderingFragmentDensityMapAttachmentInfoEXT extends Struct<VkRen
     }
 
     /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkRenderingFragmentDensityMapAttachmentInfoEXT.Buffer createSafe(long address, int capacity) {
+    public static VkRenderingFragmentDensityMapAttachmentInfoEXT.@Nullable Buffer createSafe(long address, int capacity) {
         return address == NULL ? null : new Buffer(address, capacity);
     }
 
@@ -268,22 +266,22 @@ public class VkRenderingFragmentDensityMapAttachmentInfoEXT extends Struct<VkRen
     // -----------------------------------
 
     /** Unsafe version of {@link #sType}. */
-    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.STYPE); }
+    public static int nsType(long struct) { return memGetInt(struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.STYPE); }
     /** Unsafe version of {@link #pNext}. */
     public static long npNext(long struct) { return memGetAddress(struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.PNEXT); }
     /** Unsafe version of {@link #imageView}. */
-    public static long nimageView(long struct) { return UNSAFE.getLong(null, struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.IMAGEVIEW); }
+    public static long nimageView(long struct) { return memGetLong(struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.IMAGEVIEW); }
     /** Unsafe version of {@link #imageLayout}. */
-    public static int nimageLayout(long struct) { return UNSAFE.getInt(null, struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.IMAGELAYOUT); }
+    public static int nimageLayout(long struct) { return memGetInt(struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.IMAGELAYOUT); }
 
     /** Unsafe version of {@link #sType(int) sType}. */
-    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.STYPE, value); }
+    public static void nsType(long struct, int value) { memPutInt(struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.STYPE, value); }
     /** Unsafe version of {@link #pNext(long) pNext}. */
     public static void npNext(long struct, long value) { memPutAddress(struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.PNEXT, value); }
     /** Unsafe version of {@link #imageView(long) imageView}. */
-    public static void nimageView(long struct, long value) { UNSAFE.putLong(null, struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.IMAGEVIEW, value); }
+    public static void nimageView(long struct, long value) { memPutLong(struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.IMAGEVIEW, value); }
     /** Unsafe version of {@link #imageLayout(int) imageLayout}. */
-    public static void nimageLayout(long struct, int value) { UNSAFE.putInt(null, struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.IMAGELAYOUT, value); }
+    public static void nimageLayout(long struct, int value) { memPutInt(struct + VkRenderingFragmentDensityMapAttachmentInfoEXT.IMAGELAYOUT, value); }
 
     // -----------------------------------
 
@@ -316,6 +314,11 @@ public class VkRenderingFragmentDensityMapAttachmentInfoEXT extends Struct<VkRen
         @Override
         protected Buffer self() {
             return this;
+        }
+
+        @Override
+        protected Buffer create(long address, @Nullable ByteBuffer container, int mark, int position, int limit, int capacity) {
+            return new Buffer(address, container, mark, position, limit, capacity);
         }
 
         @Override

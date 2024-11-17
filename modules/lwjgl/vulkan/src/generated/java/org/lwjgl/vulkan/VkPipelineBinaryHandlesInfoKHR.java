@@ -5,7 +5,7 @@
  */
 package org.lwjgl.vulkan;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import java.nio.*;
 
@@ -108,9 +108,8 @@ public class VkPipelineBinaryHandlesInfoKHR extends Struct<VkPipelineBinaryHandl
     @NativeType("uint32_t")
     public int pipelineBinaryCount() { return npipelineBinaryCount(address()); }
     /** {@code NULL} or a pointer to an array of {@code VkPipelineBinaryKHR} handles in which the resulting pipeline binaries are returned. */
-    @Nullable
     @NativeType("VkPipelineBinaryKHR *")
-    public LongBuffer pPipelineBinaries() { return npPipelineBinaries(address()); }
+    public @Nullable LongBuffer pPipelineBinaries() { return npPipelineBinaries(address()); }
 
     /** Sets the specified value to the {@link #sType} field. */
     public VkPipelineBinaryHandlesInfoKHR sType(@NativeType("VkStructureType") int value) { nsType(address(), value); return this; }
@@ -174,8 +173,7 @@ public class VkPipelineBinaryHandlesInfoKHR extends Struct<VkPipelineBinaryHandl
     }
 
     /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkPipelineBinaryHandlesInfoKHR createSafe(long address) {
+    public static @Nullable VkPipelineBinaryHandlesInfoKHR createSafe(long address) {
         return address == NULL ? null : new VkPipelineBinaryHandlesInfoKHR(address, null);
     }
 
@@ -218,8 +216,7 @@ public class VkPipelineBinaryHandlesInfoKHR extends Struct<VkPipelineBinaryHandl
     }
 
     /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkPipelineBinaryHandlesInfoKHR.Buffer createSafe(long address, int capacity) {
+    public static VkPipelineBinaryHandlesInfoKHR.@Nullable Buffer createSafe(long address, int capacity) {
         return address == NULL ? null : new Buffer(address, capacity);
     }
 
@@ -264,20 +261,20 @@ public class VkPipelineBinaryHandlesInfoKHR extends Struct<VkPipelineBinaryHandl
     // -----------------------------------
 
     /** Unsafe version of {@link #sType}. */
-    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + VkPipelineBinaryHandlesInfoKHR.STYPE); }
+    public static int nsType(long struct) { return memGetInt(struct + VkPipelineBinaryHandlesInfoKHR.STYPE); }
     /** Unsafe version of {@link #pNext}. */
     public static long npNext(long struct) { return memGetAddress(struct + VkPipelineBinaryHandlesInfoKHR.PNEXT); }
     /** Unsafe version of {@link #pipelineBinaryCount}. */
-    public static int npipelineBinaryCount(long struct) { return UNSAFE.getInt(null, struct + VkPipelineBinaryHandlesInfoKHR.PIPELINEBINARYCOUNT); }
+    public static int npipelineBinaryCount(long struct) { return memGetInt(struct + VkPipelineBinaryHandlesInfoKHR.PIPELINEBINARYCOUNT); }
     /** Unsafe version of {@link #pPipelineBinaries() pPipelineBinaries}. */
-    @Nullable public static LongBuffer npPipelineBinaries(long struct) { return memLongBufferSafe(memGetAddress(struct + VkPipelineBinaryHandlesInfoKHR.PPIPELINEBINARIES), npipelineBinaryCount(struct)); }
+    public static @Nullable LongBuffer npPipelineBinaries(long struct) { return memLongBufferSafe(memGetAddress(struct + VkPipelineBinaryHandlesInfoKHR.PPIPELINEBINARIES), npipelineBinaryCount(struct)); }
 
     /** Unsafe version of {@link #sType(int) sType}. */
-    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + VkPipelineBinaryHandlesInfoKHR.STYPE, value); }
+    public static void nsType(long struct, int value) { memPutInt(struct + VkPipelineBinaryHandlesInfoKHR.STYPE, value); }
     /** Unsafe version of {@link #pNext(long) pNext}. */
     public static void npNext(long struct, long value) { memPutAddress(struct + VkPipelineBinaryHandlesInfoKHR.PNEXT, value); }
     /** Sets the specified value to the {@code pipelineBinaryCount} field of the specified {@code struct}. */
-    public static void npipelineBinaryCount(long struct, int value) { UNSAFE.putInt(null, struct + VkPipelineBinaryHandlesInfoKHR.PIPELINEBINARYCOUNT, value); }
+    public static void npipelineBinaryCount(long struct, int value) { memPutInt(struct + VkPipelineBinaryHandlesInfoKHR.PIPELINEBINARYCOUNT, value); }
     /** Unsafe version of {@link #pPipelineBinaries(LongBuffer) pPipelineBinaries}. */
     public static void npPipelineBinaries(long struct, @Nullable LongBuffer value) { memPutAddress(struct + VkPipelineBinaryHandlesInfoKHR.PPIPELINEBINARIES, memAddressSafe(value)); if (value != null) { npipelineBinaryCount(struct, value.remaining()); } }
 
@@ -315,6 +312,11 @@ public class VkPipelineBinaryHandlesInfoKHR extends Struct<VkPipelineBinaryHandl
         }
 
         @Override
+        protected Buffer create(long address, @Nullable ByteBuffer container, int mark, int position, int limit, int capacity) {
+            return new Buffer(address, container, mark, position, limit, capacity);
+        }
+
+        @Override
         protected VkPipelineBinaryHandlesInfoKHR getElementFactory() {
             return ELEMENT_FACTORY;
         }
@@ -329,9 +331,8 @@ public class VkPipelineBinaryHandlesInfoKHR extends Struct<VkPipelineBinaryHandl
         @NativeType("uint32_t")
         public int pipelineBinaryCount() { return VkPipelineBinaryHandlesInfoKHR.npipelineBinaryCount(address()); }
         /** @return a {@link LongBuffer} view of the data pointed to by the {@link VkPipelineBinaryHandlesInfoKHR#pPipelineBinaries} field. */
-        @Nullable
         @NativeType("VkPipelineBinaryKHR *")
-        public LongBuffer pPipelineBinaries() { return VkPipelineBinaryHandlesInfoKHR.npPipelineBinaries(address()); }
+        public @Nullable LongBuffer pPipelineBinaries() { return VkPipelineBinaryHandlesInfoKHR.npPipelineBinaries(address()); }
 
         /** Sets the specified value to the {@link VkPipelineBinaryHandlesInfoKHR#sType} field. */
         public VkPipelineBinaryHandlesInfoKHR.Buffer sType(@NativeType("VkStructureType") int value) { VkPipelineBinaryHandlesInfoKHR.nsType(address(), value); return this; }

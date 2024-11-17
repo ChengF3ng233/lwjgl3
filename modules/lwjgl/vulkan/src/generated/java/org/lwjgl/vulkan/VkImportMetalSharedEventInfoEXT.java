@@ -5,7 +5,7 @@
  */
 package org.lwjgl.vulkan;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import java.nio.*;
 
@@ -157,8 +157,7 @@ public class VkImportMetalSharedEventInfoEXT extends Struct<VkImportMetalSharedE
     }
 
     /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkImportMetalSharedEventInfoEXT createSafe(long address) {
+    public static @Nullable VkImportMetalSharedEventInfoEXT createSafe(long address) {
         return address == NULL ? null : new VkImportMetalSharedEventInfoEXT(address, null);
     }
 
@@ -201,8 +200,7 @@ public class VkImportMetalSharedEventInfoEXT extends Struct<VkImportMetalSharedE
     }
 
     /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkImportMetalSharedEventInfoEXT.Buffer createSafe(long address, int capacity) {
+    public static VkImportMetalSharedEventInfoEXT.@Nullable Buffer createSafe(long address, int capacity) {
         return address == NULL ? null : new Buffer(address, capacity);
     }
 
@@ -247,14 +245,14 @@ public class VkImportMetalSharedEventInfoEXT extends Struct<VkImportMetalSharedE
     // -----------------------------------
 
     /** Unsafe version of {@link #sType}. */
-    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + VkImportMetalSharedEventInfoEXT.STYPE); }
+    public static int nsType(long struct) { return memGetInt(struct + VkImportMetalSharedEventInfoEXT.STYPE); }
     /** Unsafe version of {@link #pNext}. */
     public static long npNext(long struct) { return memGetAddress(struct + VkImportMetalSharedEventInfoEXT.PNEXT); }
     /** Unsafe version of {@link #mtlSharedEvent}. */
     public static long nmtlSharedEvent(long struct) { return memGetAddress(struct + VkImportMetalSharedEventInfoEXT.MTLSHAREDEVENT); }
 
     /** Unsafe version of {@link #sType(int) sType}. */
-    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + VkImportMetalSharedEventInfoEXT.STYPE, value); }
+    public static void nsType(long struct, int value) { memPutInt(struct + VkImportMetalSharedEventInfoEXT.STYPE, value); }
     /** Unsafe version of {@link #pNext(long) pNext}. */
     public static void npNext(long struct, long value) { memPutAddress(struct + VkImportMetalSharedEventInfoEXT.PNEXT, value); }
     /** Unsafe version of {@link #mtlSharedEvent(long) mtlSharedEvent}. */
@@ -300,6 +298,11 @@ public class VkImportMetalSharedEventInfoEXT extends Struct<VkImportMetalSharedE
         @Override
         protected Buffer self() {
             return this;
+        }
+
+        @Override
+        protected Buffer create(long address, @Nullable ByteBuffer container, int mark, int position, int limit, int capacity) {
+            return new Buffer(address, container, mark, position, limit, capacity);
         }
 
         @Override

@@ -5,7 +5,7 @@
  */
 package org.lwjgl.vulkan;
 
-import javax.annotation.*;
+import org.jspecify.annotations.*;
 
 import java.nio.*;
 
@@ -165,8 +165,7 @@ public class VkVideoEncodeH265SessionCreateInfoKHR extends Struct<VkVideoEncodeH
     }
 
     /** Like {@link #create(long) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkVideoEncodeH265SessionCreateInfoKHR createSafe(long address) {
+    public static @Nullable VkVideoEncodeH265SessionCreateInfoKHR createSafe(long address) {
         return address == NULL ? null : new VkVideoEncodeH265SessionCreateInfoKHR(address, null);
     }
 
@@ -209,8 +208,7 @@ public class VkVideoEncodeH265SessionCreateInfoKHR extends Struct<VkVideoEncodeH
     }
 
     /** Like {@link #create(long, int) create}, but returns {@code null} if {@code address} is {@code NULL}. */
-    @Nullable
-    public static VkVideoEncodeH265SessionCreateInfoKHR.Buffer createSafe(long address, int capacity) {
+    public static VkVideoEncodeH265SessionCreateInfoKHR.@Nullable Buffer createSafe(long address, int capacity) {
         return address == NULL ? null : new Buffer(address, capacity);
     }
 
@@ -255,22 +253,22 @@ public class VkVideoEncodeH265SessionCreateInfoKHR extends Struct<VkVideoEncodeH
     // -----------------------------------
 
     /** Unsafe version of {@link #sType}. */
-    public static int nsType(long struct) { return UNSAFE.getInt(null, struct + VkVideoEncodeH265SessionCreateInfoKHR.STYPE); }
+    public static int nsType(long struct) { return memGetInt(struct + VkVideoEncodeH265SessionCreateInfoKHR.STYPE); }
     /** Unsafe version of {@link #pNext}. */
     public static long npNext(long struct) { return memGetAddress(struct + VkVideoEncodeH265SessionCreateInfoKHR.PNEXT); }
     /** Unsafe version of {@link #useMaxLevelIdc}. */
-    public static int nuseMaxLevelIdc(long struct) { return UNSAFE.getInt(null, struct + VkVideoEncodeH265SessionCreateInfoKHR.USEMAXLEVELIDC); }
+    public static int nuseMaxLevelIdc(long struct) { return memGetInt(struct + VkVideoEncodeH265SessionCreateInfoKHR.USEMAXLEVELIDC); }
     /** Unsafe version of {@link #maxLevelIdc}. */
-    public static int nmaxLevelIdc(long struct) { return UNSAFE.getInt(null, struct + VkVideoEncodeH265SessionCreateInfoKHR.MAXLEVELIDC); }
+    public static int nmaxLevelIdc(long struct) { return memGetInt(struct + VkVideoEncodeH265SessionCreateInfoKHR.MAXLEVELIDC); }
 
     /** Unsafe version of {@link #sType(int) sType}. */
-    public static void nsType(long struct, int value) { UNSAFE.putInt(null, struct + VkVideoEncodeH265SessionCreateInfoKHR.STYPE, value); }
+    public static void nsType(long struct, int value) { memPutInt(struct + VkVideoEncodeH265SessionCreateInfoKHR.STYPE, value); }
     /** Unsafe version of {@link #pNext(long) pNext}. */
     public static void npNext(long struct, long value) { memPutAddress(struct + VkVideoEncodeH265SessionCreateInfoKHR.PNEXT, value); }
     /** Unsafe version of {@link #useMaxLevelIdc(boolean) useMaxLevelIdc}. */
-    public static void nuseMaxLevelIdc(long struct, int value) { UNSAFE.putInt(null, struct + VkVideoEncodeH265SessionCreateInfoKHR.USEMAXLEVELIDC, value); }
+    public static void nuseMaxLevelIdc(long struct, int value) { memPutInt(struct + VkVideoEncodeH265SessionCreateInfoKHR.USEMAXLEVELIDC, value); }
     /** Unsafe version of {@link #maxLevelIdc(int) maxLevelIdc}. */
-    public static void nmaxLevelIdc(long struct, int value) { UNSAFE.putInt(null, struct + VkVideoEncodeH265SessionCreateInfoKHR.MAXLEVELIDC, value); }
+    public static void nmaxLevelIdc(long struct, int value) { memPutInt(struct + VkVideoEncodeH265SessionCreateInfoKHR.MAXLEVELIDC, value); }
 
     // -----------------------------------
 
@@ -303,6 +301,11 @@ public class VkVideoEncodeH265SessionCreateInfoKHR extends Struct<VkVideoEncodeH
         @Override
         protected Buffer self() {
             return this;
+        }
+
+        @Override
+        protected Buffer create(long address, @Nullable ByteBuffer container, int mark, int position, int limit, int capacity) {
+            return new Buffer(address, container, mark, position, limit, capacity);
         }
 
         @Override
