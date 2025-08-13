@@ -24,7 +24,7 @@
         <property name="commons-math3" value="3.6.1"/>
     <!-- *********************************** -->
 
-    <target name="check-dependencies" description="Updates LWJGL dependencies, if required" unless="${build.offline}">
+    <target name="check-dependencies" description="Updates LWJGL dependencies, if required">
         <!-- Checks if the Kotlin compiler must be updated -->
         <local name="kotlinc-build-current"/>
         <loadfile property="kotlinc-build-current" srcfile="${kotlinc}/build.txt" quiet="true" taskname="kotlinc"/>
@@ -48,7 +48,7 @@
         <antcall target="update-dependencies" unless:set="dependencies-uptodate"/>
     </target>
 
-    <target name="update-dependencies" description="Updates LWJGL dependencies" unless="${build.offline}">
+    <target name="update-dependencies" description="Updates LWJGL dependencies">
         <taskdef name="logLevel" classname="org.lwjgl.SetLogLevel" classpath="${bin.ant}"/>
 
         <mkdir dir="${lib}"/>
